@@ -25,6 +25,15 @@
     return x === 0 ? num/denom : Math.sin(num*x) / (denom*x)
   }
   
+  function fDeriv(x, num, denom) {
+    if (x === 0) {
+      return 0
+    }
+    dNum = x * num * Math.cos(num*x) - Math.sin(num*x)
+    dDenom = denom * x * x
+    return dNum/dDenom
+  }
+  
   async function createGifCircle (num, scale, radius, numerator, denominator, url) {
     const gif = await nn.loadImage(url)
     console.log(fOutput(4, numerator, denominator))
