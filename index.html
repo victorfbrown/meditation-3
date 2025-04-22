@@ -2,11 +2,11 @@
 <script>
   /* global nn */
 
-  const GIF = 'https://generativeart.online/images/butterfly.gif'
-  // const GIF = 'arrow.gif'
+  let GIF = 'https://generativeart.online/images/butterfly.gif'
+  GIF = 'arrow.gif'
   const COLOR = 'plum'
   
-  function createGif (x, y, w, h, url) {
+  function createGif (x, y, w, h, deg, url) {
     nn.create('img')
       .set({ src: `${url}#${Math.random()}` })
       .css({
@@ -14,6 +14,7 @@
         width: w,
         height: h,
         transition: 'transform 2s',
+        transform: `rotate(${deg}deg)`,
         left: x - w / 2,
         top: y - h / 2
       })
@@ -29,14 +30,14 @@
     if (x === 0) {
       return 0
     }
-    dNum = x * num * Math.cos(num*x) - Math.sin(num*x)
-    dDenom = denom * x * x
+    let dNum = x * num * Math.cos(num*x) - Math.sin(num*x)
+    let dDenom = denom * x * x
     return dNum/dDenom
   }
   
   async function createGifCircle (num, scale, radius, numerator, denominator, url) {
+    console.log(fDeriv(2, 1, 1))
     const gif = await nn.loadImage(url)
-    console.log(fOutput(4, numerator, denominator))
     for (let i = 0; i < num; i++) {
       const cx = nn.width / 2
       const cy = nn.height / 2
@@ -44,7 +45,11 @@
       let xInput = -2 + (i / num) * 4
       let xDisplay = (i/num) * nn.width
       let y = cy + Math.cos(xInput * scale) * radius
-      createGif(xDisplay, y, gif.width/2, gif.height/2, url)
+      let eachDeriv = radius * xInput * scale * Math.sin(xInput * scale)
+      // console.log(xInput, eachDeriv)
+      let radianDeriv = Math.atan(eachDeriv)
+      let angleDeriv = (radianDeriv / (2 * Math.PI)) * 360
+      createGif(xDisplay, y, gif.width/20, gif.height/20, angleDeriv, url)
     }
   }
   
