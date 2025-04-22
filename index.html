@@ -1,0 +1,66 @@
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script>
+  /* global nn */
+
+  const GIF = 'https://generativeart.online/images/butterfly.gif'
+  // const GIF = 'https://tenor.com/view/swipe-up-arrow-swipe-link-this-gif-16739152'
+  const COLOR = 'plum'
+  
+  function createGif (x, y, w, h, url) {
+    nn.create('img')
+      .set({ src: `${url}#${Math.random()}` })
+      .css({
+        position: 'absolute',
+        width: w,
+        height: h,
+        transition: 'transform 2s',
+        left: x - w / 2,
+        top: y - h / 2
+      })
+      .addTo('body')
+  }
+  
+  
+  function fOutput(x, num, denom) {
+    return x === 0 ? num/denom : Math.sin(num*x) / (denom*x)
+  }
+  
+  async function createGifCircle (num, scale, radius, numerator, denominator, url) {
+    const gif = await nn.loadImage(url)
+    console.log(fOutput(4, numerator, denominator))
+    for (let i = 0; i < num; i++) {
+      const cx = nn.width / 2
+      const cy = nn.height / 2
+      
+      let xInput = -2 + (i / num) * 4
+      let xDisplay = (i/num) * nn.width
+      let y = cy + Math.cos(xInput * scale) * radius
+      createGif(xDisplay, y, gif.width, gif.height, url)
+    }
+  }
+  
+  function sleep (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  async function setup () {
+    nn.get('body').css({
+      backgroundColor: COLOR,
+      overflow: 'hidden'
+    })
+    
+    let halfAmount = 5
+    for (let i = -1 * halfAmount; i<halfAmount*2; i++) {
+      const images = document.getElementsByTagName('img');
+      while (images.length > 0) {
+        images[0].parentNode.removeChild(images[0]);
+      }
+      console.log(i)
+      createGifCircle(100, Math.abs(i), 100, 1, 1, GIF)
+      await sleep(1000)
+    }
+  }
+  
+  nn.on('load', setup)
+  
+</script>
