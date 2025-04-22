@@ -35,7 +35,7 @@
       let xInput = -2 + (i / num) * 4
       let xDisplay = (i/num) * nn.width
       let y = cy + Math.cos(xInput * scale) * radius
-      createGif(xDisplay, y, gif.width, gif.height, url)
+      createGif(xDisplay, y, gif.width/2, gif.height/2, url)
     }
   }
   
@@ -49,14 +49,13 @@
       overflow: 'hidden'
     })
     
-    let halfAmount = 5
-    for (let i = -1 * halfAmount; i<halfAmount*2; i++) {
+    let halfAmount = 15
+    for (let i = -1 * halfAmount; i<halfAmount*2; i+=2) {
       const images = document.getElementsByTagName('img');
       while (images.length > 0) {
         images[0].parentNode.removeChild(images[0]);
       }
-      console.log(i)
-      createGifCircle(50, Math.abs(i), 100, 1, 1, GIF)
+      createGifCircle(400, Math.abs(i), 100, 1, 1, GIF)
       await sleep(1000)
     }
   }
