@@ -3,7 +3,7 @@
   /* global nn */
 
   const GIF = 'https://generativeart.online/images/butterfly.gif'
-  // const GIF = 'https://tenor.com/view/swipe-up-arrow-swipe-link-this-gif-16739152'
+  // const GIF = 'arrow.gif'
   const COLOR = 'plum'
   
   function createGif (x, y, w, h, url) {
@@ -56,7 +56,7 @@
         images[0].parentNode.removeChild(images[0]);
       }
       console.log(i)
-      createGifCircle(100, Math.abs(i), 100, 1, 1, GIF)
+      createGifCircle(50, Math.abs(i), 100, 1, 1, GIF)
       await sleep(1000)
     }
   }
